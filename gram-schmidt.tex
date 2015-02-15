@@ -1,0 +1,117 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{lastpage} % for the number of the last page in the document
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Michael Akintunde}
+\chead{CID: 00828840}
+\rhead{M2AA3 Project 1}
+\lfoot{\today}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
+
+\newcommand{\mgs}[1] {\underline{\overline{#1}}}
+\newcommand{\cgs}[1] {\underline{#1}}
+
+\newtheorem{theorem}{Lemma}
+
+\begin{document}
+\title{M2AA3 - Project 1}
+\author{Michael Akintunde - CID: 00828840}
+
+\maketitle
+
+\begin{enumerate}
+	\item 
+	\begin{theorem}
+	The Modified Gram-Schmidt Algorithm (mgs) outputs vectors $\mgs{q}_1$, $\mgs{q}_2$, $\ldots$ , $\mgs{q}_n \in \mathbb{R}^n$ such that $$\mgs{q}_i \equiv \cgs{q}_i, \qquad i = 1 \rightarrow n.$$
+	\end{theorem}
+	\begin{proof}
+	$\left\{ \cgs{a}_i \right\}_{i=1}^n \text{ is linearly independent.}$
+	\begin{align*}
+		\implies \cgs{a}_i &\neq \underline{0} , \qquad i = 1 \rightarrow n. \\
+		\implies \mgs{v}_i^{(1)} &= \cgs{a}_i \neq \underline{0} \\
+		\implies \mgs{v}_1^{(1)} &= \cgs{a}_1 \neq \underline{0} \\
+		\implies \|\mgs{v}_1^{(1)}\| &\neq 0. \\
+		\mgs{q}_1 &= \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} \\
+		\implies \|\mgs{q}_1\| &= \left( \langle \mgs{q}_1 , \mgs{q}_1 \rangle \right)^{1/2}	\\
+		&= \left( \left\langle \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} , \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} \right\rangle \right)^{1/2} \\
+		&= \left( \dfrac{1}{\|\mgs{v}_1^{(1)}\|^2} \left\langle \mgs{v}_1^{(1)} , \mgs{v}_1^{(1)} \right\rangle \right)^{1/2} \\
+		&= \left( \dfrac{1}{\|\mgs{v}_1^{(1)}\|^2} \cdot  \|\mgs{v}_1^{(1)}\|^2 \right)^{1/2} = 1 \\
+		\implies \mgs{q}_1 \text{ is orthonormal}.\\
+		\mgs{v}_2^{(2)} &= \mgs{v}_2^{(1)} - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1. \\
+		\langle \mgs{v}_2^{(2)}, \mgs{q}_1 \rangle 
+		&= \langle \mgs{v}_2^{(1)} - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1, \mgs{q}_1 \rangle \\
+		&= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \langle \mgs{q}_1, \mgs{q}_1 \rangle \\
+		&= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle  \|\mgs{q}_1\|^2 \\
+		&= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \cdot 1 \\
+		&= 0. \\
+		\therefore \mgs{v}_2^{(2)} \text{ is orthogonal to } \mgs{q}_1.
+	\end{align*}
+	Form $\mgs{q}_2 = \mgs{v}_2^{(2)} / \| \mgs{v}_2^{(2)} \|$. We need to check that $\| \mgs{v}_2^{(2)} \| \neq 0$. \\
+	If $\| \mgs{v}_2^{(2)}\| = 0 $, 
+	\begin{align*}
+	\mgs{v}_2^{(1)} &= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1 \\
+	\implies &\mgs{v}_2^{(1)} \text{ is a multiple of } \mgs{q}_1 \\
+	\implies &\cgs{a}_2 \text{ is a multiple of } \mgs{q}_1 \\ 
+	\implies &\cgs{a}_2 \text{ is a multiple of } \cgs{a}_1 \\ 
+	\end{align*}
+	Which leads to a contradiction to $\left\{ \cgs{a}_i \right\}_{i=1}^n \text{ being linearly independent.}$
+	\end{proof}
+	\item Computer listings of code:
+	\begin{enumerate}
+		\item \textbf{Classical Gram-Schmidt Algorithm (cgs)}:
+		\begin{verbatim}
+function[result] = gran_schmidt(varargin)
+    A_raw = cellfun(@transpose, varargin, 'UniformOutput', false);  
+    A = cell2mat(A_raw);
+    V(:,1) = A(:, 1);
+    Q(:,1) = V(:,1) / norm(V(:,1));
+    for i=2:nargin,
+        V(:,i) = A(:, i) - sum(A, Q, i);
+        Q(:,i) = V(:, i) / norm(V(:,i));
+    end
+    result = (Q' * Q) - eye(nargin);
+end
+
+function[result] = sum(A, Q, i)
+    R = zeros(size(A, 1), 1);
+    for j=1:i-1,
+        R = R + dot(A(:,i), Q(:,j)) * Q(:,j);
+    end    
+    result = R;
+end
+		\end{verbatim}
+		\item \textbf{Modified Gram-Schmidt Algorithm (mgs)}:
+		\begin{verbatim}
+function[result] = mod_gram_schmidt(varargin)
+    % Convert input arguments into A matrix.
+    A_raw = cellfun(@transpose, varargin, 'UniformOutput', false);  
+    A = cell2mat(A_raw);
+    
+    % Initialise the first 'page' of V matrices.
+    for i=1:nargin,
+        V(:,i,1) = A(:,i);
+    end
+    
+    % Initialise the first column of Q.
+    Q(:,1) = V(:,1,1) / norm(V(:,1,1));
+    
+    % Initialise the rest of the column vectors of Q.
+    for i=2:nargin,
+        for j=i:nargin,
+            V(:,j,i) = V(:,j,i-1) - dot(V(:,j,i-1), Q(:,i-1)) * Q(:,i-1);
+        end
+        Q(:,i) = V(:,i,i) / norm(V(:,i,i));
+    end    
+    result = Q;
+end
+
+		\end{verbatim}
+	\end{enumerate}
+\end{enumerate}
+
+\end{document}
