@@ -1,4 +1,6 @@
 function[result] = mod_gram_schmidt(varargin)
+    % MATLAB implementation of Modified Gram-Schmidt Algorithm.
+
     % Convert input arguments into A matrix.
     A_raw = cellfun(@transpose, varargin, 'UniformOutput', false);  
     A = cell2mat(A_raw);
