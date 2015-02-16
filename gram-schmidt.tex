@@ -15,6 +15,10 @@
 
 \newcommand{\mgs}[1] {\underline{\overline{#1}}}
 \newcommand{\cgs}[1] {\underline{#1}}
+\newcommand{\mgzz}[2] {\ensuremath{\underline{\overline{#1}}}_{#2}}
+\newcommand{\mgz}[3] {\ensuremath{\underline{\overline{#1}}}_{#2}^{(#3)}}
+\newcommand{\cgz}[2] {\ensuremath{\underline{#1}}_{#2}}
+\newcommand{\brackit}[2] {\ensuremath{\left\langle #1,\,#2 \right\rangle}}
 
 \newtheorem{theorem}{Lemma}
 
@@ -60,16 +64,55 @@
 	\implies &\cgs{a}_2 \text{ is a multiple of } \cgs{a}_1 \\ 
 	\end{align*}
 	Which leads to a contradiction to $\left\{ \cgs{a}_i \right\}_{i=1}^n \text{ being linearly independent.}$
+	
+	\textbf{Inductive case:}
+	Assume the following inductive hypothesis: 
+	\begin{equation} \label{eq:indhyp}
+		\mgz{v}{j}{i} = \cgz{a}{j} - \sum\limits_{k=1}^{i-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}, \qquad \text{where } \{ \mgzz{q}{k} \}_{k=1}^{i-1} \in \mathbb{R}^m \text{ are orthonormal.}
+	\end{equation}
+
+	Fix $j$. With $i = p + 1$, we want to show that:
+	\begin{align*} \label{eq:indcase}
+		\mgz{v}{j}{p+1} &= \cgz{a}{j} - \sum\limits_{k=1}^{(p+1)-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
+		&= \cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}
+	\end{align*}
+	
+	Now, by the definition of the \textbf{mgs} we have:
+	\begin{align*}
+	\mgz{v}{j}{p+1} &= \mgz{v}{j}{p} - \brackit{\mgz{v}{j}{p}}{\mgzz{q}{p}} \\
+	&= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \qquad \text{By (\ref{eq:indhyp})} \\
+	&- \brackit{ \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} }{ \mgzz{q}{p} } \mgzz{q}{p} \\
+	&= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} - \left( \brackit{ \cgz{a}{j} }{ \mgzz{q}{p} } - \sum\limits_{k=1}^{p-1} \brackit{ \cgz{a}{j} }{ \mgzz{q}{k} } \brackit{ \mgzz{q}{k} }{ \mgzz{q}{p} } \right) \mgzz{q}{p} \\
+	&= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} - \brackit{ \cgz{a}{j} }{ \mgzz{q}{p} } \mgzz{q}{p}, \qquad \text{since } \brackit{ \mgzz{q}{k} }{ \mgzz{q}{p} } = 0 \text{ for } k = q \rightarrow p-1. \\
+	&= \cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
+	\end{align*}
+	Which, by induction, is what was required. Since $i = p + 1$,
+	\begin{align*}
+	\mgz{v}{j}{p+1} &= 
+	\cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
+	&=  \cgz{a}{j} - \sum\limits_{k=1}^{i-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}\\
+	&= \cgz{v}{j}.
+	\end{align*}
+	Therefore, we can construct $\mgzz{q}{i} = {\mgz{v}{i}{i}}/{\| \mgz{v}{i}{i} \|} = {\cgz{v}{i}}/{\| \cgz{v}{i} \|} = \cgz{q}{i}$
 	\end{proof}
 	\item Computer listings of code:
 	\begin{enumerate}
 		\item \textbf{Classical Gram-Schmidt Algorithm (cgs)}:
 		\begin{verbatim}
 function[result] = gran_schmidt(varargin)
+    % Convert input arguments into A.
     A_raw = cellfun(@transpose, varargin, 'UniformOutput', false);  
     A = cell2mat(A_raw);
+    
+    % Initialise the first column vector of V to be the first column 
+    % vector of A.
     V(:,1) = A(:, 1);
+    
+    % Normalise the first column vector of V to become the first column
+    % vector of Q.
     Q(:,1) = V(:,1) / norm(V(:,1));
+    
+    % Initialise the rest of the columns of the Q matrix.
     for i=2:nargin,
         V(:,i) = A(:, i) - sum(A, Q, i);
         Q(:,i) = V(:, i) / norm(V(:,i));
@@ -88,7 +131,7 @@ end
 		\item \textbf{Modified Gram-Schmidt Algorithm (mgs)}:
 		\begin{verbatim}
 function[result] = mod_gram_schmidt(varargin)
-    % Convert input arguments into A matrix.
+    % Convert input arguments into A.
     A_raw = cellfun(@transpose, varargin, 'UniformOutput', false);  
     A = cell2mat(A_raw);
     
