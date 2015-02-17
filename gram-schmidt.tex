@@ -29,78 +29,86 @@
 \maketitle
 
 \begin{enumerate}
-	\item 
-	\begin{theorem}
-	The Modified Gram-Schmidt Algorithm (mgs) outputs vectors $\mgs{q}_1$, $\mgs{q}_2$, $\ldots$ , $\mgs{q}_n \in \mathbb{R}^n$ such that $$\mgs{q}_i \equiv \cgs{q}_i, \qquad i = 1 \rightarrow n.$$
-	\end{theorem}
-	\begin{proof}
-	We will proceed by induction.\\
-	\textbf{Base case:}
-	$\left\{ \cgs{a}_i \right\}_{i=1}^n \text{ is linearly independent.}$
-	\begin{align*}
-		\implies \cgs{a}_i &\neq \underline{0} , \qquad i = 1 \rightarrow n. \\
-		\implies \mgs{v}_i^{(1)} &= \cgs{a}_i \neq \underline{0} \\
-		\implies \mgs{v}_1^{(1)} &= \cgs{a}_1 \neq \underline{0} \\
-		\implies \|\mgs{v}_1^{(1)}\| &\neq 0. \\
-		\mgs{q}_1 &= \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} \\
-		\implies \|\mgs{q}_1\| &= \left( \langle \mgs{q}_1 , \mgs{q}_1 \rangle \right)^{1/2}	\\
-		&= \left( \left\langle \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} , \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} \right\rangle \right)^{1/2} \\
-		&= \left( \dfrac{1}{\|\mgs{v}_1^{(1)}\|^2} \left\langle \mgs{v}_1^{(1)} , \mgs{v}_1^{(1)} \right\rangle \right)^{1/2} \\
-		&= \left( \dfrac{1}{\|\mgs{v}_1^{(1)}\|^2} \cdot  \|\mgs{v}_1^{(1)}\|^2 \right)^{1/2} = 1 \\
-		\implies \mgs{q}_1 \text{ is orthonormal}.\\
-		\mgs{v}_2^{(2)} &= \mgs{v}_2^{(1)} - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1. \\
-		\langle \mgs{v}_2^{(2)}, \mgs{q}_1 \rangle 
-		&= \langle \mgs{v}_2^{(1)} - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1, \mgs{q}_1 \rangle \\
-		&= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \langle \mgs{q}_1, \mgs{q}_1 \rangle \\
-		&= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle  \|\mgs{q}_1\|^2 \\
-		&= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \cdot 1 \\
-		&= 0. \\
-		\therefore \mgs{v}_2^{(2)} \text{ is orthogonal to } \mgs{q}_1.
-	\end{align*}
-	Form $\mgs{q}_2 = \mgs{v}_2^{(2)} / \| \mgs{v}_2^{(2)} \|$. We need to check that $\| \mgs{v}_2^{(2)} \| \neq 0$. \\
-	If $\| \mgs{v}_2^{(2)}\| = 0 $, 
-	\begin{align*}
-	\mgs{v}_2^{(1)} &= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1 \\
-	\implies &\mgs{v}_2^{(1)} \text{ is a multiple of } \mgs{q}_1 \\
-	\implies &\cgs{a}_2 \text{ is a multiple of } \mgs{q}_1 \\ 
-	\implies &\cgs{a}_2 \text{ is a multiple of } \cgs{a}_1 \\ 
-	\end{align*}
-	Which leads to a contradiction to $\left\{ \cgs{a}_i \right\}_{i=1}^n \text{ being linearly independent.}$
-	
-	\textbf{Inductive case:}
-	Assume the following inductive hypothesis: 
-	\begin{equation} \label{eq:indhyp}
-		\mgz{v}{j}{i} = \cgz{a}{j} - \sum\limits_{k=1}^{i-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}, \qquad \text{where } \{ \mgzz{q}{k} \}_{k=1}^{i-1} \in \mathbb{R}^m \text{ are orthonormal.}
-	\end{equation}
+  \item 
+  \begin{theorem}
+  The Modified Gram-Schmidt Algorithm (mgs) outputs vectors $\mgs{q}_1$, $\mgs{q}_2$, $\ldots$ , $\mgs{q}_n \in \mathbb{R}^n$ such that $$\mgs{q}_i \equiv \cgs{q}_i, \qquad i = 1 \rightarrow n.$$
+  \end{theorem}
+  \begin{proof}
+  We will first check the orthonormality of $\left\{ \mgzz{q}{i} \right\}_{i=1}^2$.\\
+  We know that $\left\{ \cgs{a}_i \right\}_{i=1}^n \text{ is linearly independent.}$
+  \begin{align*}
+    \implies \cgs{a}_i &\neq \underline{0} , \qquad i = 1 \rightarrow n. \\
+    \implies \mgs{v}_i^{(1)} &= \cgs{a}_i \neq \underline{0} \\
+    \implies \mgs{v}_1^{(1)} &= \cgs{a}_1 \neq \underline{0} \\
+    \implies \|\mgs{v}_1^{(1)}\| &\neq 0. \\
+    \mgs{q}_1 &= \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} \\
+    \implies \|\mgs{q}_1\| &= \left( \langle \mgs{q}_1 , \mgs{q}_1 \rangle \right)^{1/2}  \\
+    &= \left( \left\langle \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} , \dfrac{\mgs{v}_1^{(1)}}{\|\mgs{v}_1^{(1)}\|} \right\rangle \right)^{1/2} \\
+    &= \left( \dfrac{1}{\|\mgs{v}_1^{(1)}\|^2} \left\langle \mgs{v}_1^{(1)} , \mgs{v}_1^{(1)} \right\rangle \right)^{1/2} \\
+    &= \left( \dfrac{1}{\|\mgs{v}_1^{(1)}\|^2} \cdot  \|\mgs{v}_1^{(1)}\|^2 \right)^{1/2} = 1 \\
+    \implies \mgs{q}_1 \text{ is orthonormal}.\\
+    \mgs{v}_2^{(2)} &= \mgs{v}_2^{(1)} - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1. \\
+    \langle \mgs{v}_2^{(2)}, \mgs{q}_1 \rangle 
+    &= \langle \mgs{v}_2^{(1)} - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1, \mgs{q}_1 \rangle \\
+    &= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \langle \mgs{q}_1, \mgs{q}_1 \rangle \\
+    &= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle  \|\mgs{q}_1\|^2 \\
+    &= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle - \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \cdot 1 \\
+    &= 0. \\
+    \therefore \mgs{v}_2^{(2)} \text{ is orthogonal to } \mgs{q}_1.
+  \end{align*}
+  Form $\mgs{q}_2 = \mgs{v}_2^{(2)} / \| \mgs{v}_2^{(2)} \|$. We need to check that $\| \mgs{v}_2^{(2)} \| \neq 0$. \\
+  If $\| \mgs{v}_2^{(2)}\| = 0 $, 
+  \begin{align*}
+  \mgs{v}_2^{(1)} &= \langle \mgs{v}_2^{(1)}, \mgs{q}_1 \rangle \mgs{q}_1 \\
+  \implies &\mgs{v}_2^{(1)} \text{ is a multiple of } \mgs{q}_1 \\
+  \implies &\cgs{a}_2 \text{ is a multiple of } \mgs{q}_1 \\ 
+  \implies &\cgs{a}_2 \text{ is a multiple of } \cgs{a}_1
+  \end{align*}
+  Which leads to a contradiction to $\left\{ \cgs{a}_i \right\}_{i=1}^n$  being linearly independent. \\
+  We will proceed by induction.\\
+  \textbf{Base case:} $i=1$.
+  \begin{align*}
+    \mgz{v}{j}{1} &= \cgz{a}{1} \\
+    \implies \mgzz{q}{1} &= \dfrac{\mgz{v}{1}{1}}{\| \mgz{v}{1}{1} \|} \\
+    &= \dfrac{\cgz{a}{1}}{\| \cgz{a}{1} \|} \\
+    &= \dfrac{\cgz{v}{1}}{\| \cgz{v}{1} \|} \\
+    &= \cgz{q}{1}.
+  \end{align*}
+  
+  \textbf{Inductive case:}
+  Assume the following inductive hypothesis: 
+  \begin{equation} \label{eq:indhyp}
+    \mgz{v}{j}{i} = \cgz{a}{j} - \sum\limits_{k=1}^{i-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} = \cgz{v}{j}, \qquad \text{where } \{ \mgzz{q}{k} \}_{k=1}^{i-1} \in \mathbb{R}^m \text{ are orthonormal.}
+  \end{equation}
 
-	Fix $j$. With $i = p + 1$, we want to show that:
-	\begin{align*} \label{eq:indcase}
-		\mgz{v}{j}{p+1} &= \cgz{a}{j} - \sum\limits_{k=1}^{(p+1)-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
-		&= \cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}
-	\end{align*}
-	
-	Now, by the definition of the \textbf{mgs} we have:
-	\begin{align*}
-	\mgz{v}{j}{p+1} &= \mgz{v}{j}{p} - \brackit{\mgz{v}{j}{p}}{\mgzz{q}{p}} \\
-	&= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \qquad \text{By (\ref{eq:indhyp})} \\
-	&- \brackit{ \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} }{ \mgzz{q}{p} } \mgzz{q}{p} \\
-	&= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} - \left( \brackit{ \cgz{a}{j} }{ \mgzz{q}{p} } - \sum\limits_{k=1}^{p-1} \brackit{ \cgz{a}{j} }{ \mgzz{q}{k} } \brackit{ \mgzz{q}{k} }{ \mgzz{q}{p} } \right) \mgzz{q}{p} \\
-	&= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} - \brackit{ \cgz{a}{j} }{ \mgzz{q}{p} } \mgzz{q}{p}, \qquad \text{since } \brackit{ \mgzz{q}{k} }{ \mgzz{q}{p} } = 0 \text{ for } k = q \rightarrow p-1. \\
-	&= \cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
-	\end{align*}
-	Which, by induction, is what was required. Since $i = p + 1$,
-	\begin{align*}
-	\mgz{v}{j}{p+1} &= 
-	\cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
-	&=  \cgz{a}{j} - \sum\limits_{k=1}^{i-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}\\
-	&= \cgz{v}{j}.
-	\end{align*}
-	Therefore, we can let $i = j$ and construct $\mgzz{q}{i} = {\mgz{v}{i}{i}}/{\| \mgz{v}{i}{i} \|} = {\cgz{v}{i}}/{\| \cgz{v}{i} \|} = \cgz{q}{i}$
-	\end{proof}
-	\item Computer listings of code:
-	\begin{enumerate}
-		\item \textbf{Classical Gram-Schmidt Algorithm (cgs)}:
-		\begin{verbatim}
+  Fix $j$. With $i = p + 1$, we want to show that:
+  \begin{align*} \label{eq:indcase}
+    \mgz{v}{j}{p+1} &= \cgz{a}{j} - \sum\limits_{k=1}^{(p+1)-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
+    &= \cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}
+  \end{align*}
+  
+  Now, by the definition of the \textbf{mgs} we have:
+  \begin{align*}
+  \mgz{v}{j}{p+1} &= \mgz{v}{j}{p} - \brackit{\mgz{v}{j}{p}}{\mgzz{q}{p}}\mgzz{q}{p} \\
+  &= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}
+  - \brackit{ \left( \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \right) }{ \mgzz{q}{p} } \mgzz{q}{p}  \qquad \text{By (\ref{eq:indhyp})} \\
+  &= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} - \left( \brackit{ \cgz{a}{j} }{ \mgzz{q}{p} } - \sum\limits_{k=1}^{p-1} \brackit{ \cgz{a}{j} }{ \mgzz{q}{k} } \brackit{ \mgzz{q}{k} }{ \mgzz{q}{p} } \right) \mgzz{q}{p} \\
+  &= \cgz{a}{j} - \sum\limits_{k=1}^{p-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} - \brackit{ \cgz{a}{j} }{ \mgzz{q}{p} } \mgzz{q}{p}, \qquad \text{since } \brackit{ \mgzz{q}{k} }{ \mgzz{q}{p} } = 0 \text{ for } k = q \rightarrow p-1. \\
+  &= \cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
+  \end{align*}
+  Which, by induction, is what was required. Since $i = p + 1$,
+  \begin{align*}
+  \mgz{v}{j}{i} = \mgz{v}{j}{p+1} &= 
+  \cgz{a}{j} - \sum\limits_{k=1}^{p} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k} \\
+  &=  \cgz{a}{j} - \sum\limits_{k=1}^{i-1} \brackit{\cgz{a}{j}}{\mgzz{q}{k}}\mgzz{q}{k}\\
+  &= \cgz{v}{j}.
+  \end{align*}
+  Therefore, we can let $i = j$ and construct $\mgzz{q}{i} = {\mgz{v}{i}{i}}/{\| \mgz{v}{i}{i} \|} = {\cgz{v}{i}}/{\| \cgz{v}{i} \|} = \cgz{q}{i}$
+  \end{proof}
+  \item Computer listings of code:
+  \begin{enumerate}
+    \item \textbf{Classical Gram-Schmidt Algorithm (cgs)}:
+    \begin{verbatim}
 function[result] = gran_schmidt(varargin)
     % Convert input arguments into A.
     A_raw = cellfun(@transpose, varargin, 'UniformOutput', false);  
@@ -129,9 +137,9 @@ function[result] = sum(A, Q, i)
     end    
     result = R;
 end
-		\end{verbatim}
-		\item \textbf{Modified Gram-Schmidt Algorithm (mgs)}:
-		\begin{verbatim}
+    \end{verbatim}
+    \item \textbf{Modified Gram-Schmidt Algorithm (mgs)}:
+    \begin{verbatim}
 function[result] = mod_gram_schmidt(varargin)
     % Convert input arguments into A.
     A_raw = cellfun(@transpose, varargin, 'UniformOutput', false);  
@@ -155,10 +163,10 @@ function[result] = mod_gram_schmidt(varargin)
     result = Q;
 end
 
-		\end{verbatim}
-		\subsection*{Analysis of results}
-		Take $k = 10^{-1}$.
-		\begin{verbatim}
+    \end{verbatim}
+    \subsection*{Analysis of results}
+    Take $k = 10^{-1}$.
+    \begin{verbatim}
 >> gram_schmidt(a1, a2, a3, a4)
 
 ans =
@@ -200,11 +208,11 @@ ans =
    -0.1527         0         0         0
    -0.0888         0         0    0.0042
    -0.0625         0    0.0042   -0.0222
-		\end{verbatim}
-		The results for $Q$ and $\overline{Q}$ appear to be equal, but the matrix given by $\overline{Q}^T\overline{Q} - I^{(n)}$ appears to be closer to zero, i.e. the Modified Gram-Schmidt algorithm gives a more accurate result.
-		\newpage
-		Take $k = 10^{-5}$.
-		\begin{verbatim}
+    \end{verbatim}
+    The results for $Q$ and $\overline{Q}$ appear to be equal, but the matrix given by $\overline{Q}^T\overline{Q} - I^{(n)}$ appears to be closer to zero, i.e. the Modified Gram-Schmidt algorithm gives a more accurate result.
+    \newpage
+    Take $k = 10^{-5}$.
+    \begin{verbatim}
 >> gram_schmidt(a1, a2, a3, a4)
 
 ans =
@@ -245,13 +253,13 @@ ans =
          0    0.5858    0.3382    0.2391
     0.5858         0         0         0
     0.3382         0   -0.0001    0.0000
-    0.2391         0    0.0000   -0.0001	
-		\end{verbatim}
-		The results for $Q$ and $\overline{Q}$ appear to be the same, but the results of $Q^TQ - I^{(n)}$ and $\overline{Q}^T\overline{Q} - I^{(n)}$ are slightly different, with $\overline{Q}^T\overline{Q} - I^{(n)}$ being slightly closer to the zero matrix.
-		
-		\newpage
-		Take $k = 10^{-10}$.
-		\begin{verbatim}
+    0.2391         0    0.0000   -0.0001  
+    \end{verbatim}
+    The results for $Q$ and $\overline{Q}$ appear to be the same, but the results of $Q^TQ - I^{(n)}$ and $\overline{Q}^T\overline{Q} - I^{(n)}$ are slightly different, with $\overline{Q}^T\overline{Q} - I^{(n)}$ being slightly closer to the zero matrix.
+    
+    \newpage
+    Take $k = 10^{-10}$.
+    \begin{verbatim}
 >> gram_schmidt(a1, a2, a3, a4)
 
 ans =
@@ -289,10 +297,10 @@ ans =
    -0.7071   -0.0000    0.0000    0.0000
    -0.4082    0.0000    0.0000   -0.0000
    -0.2887    0.0000   -0.0000         0
-		\end{verbatim}
-		We can see that the results for $Q$ are now different to that of $\overline{Q}$. The result of $Q^TQ - I^{(n)}$ is indeed symmetric but has some entries with the value $0.5$, so we are starting to see some divergence away from the zero matrix. The matrix given by $\overline{Q}^T\overline{Q} - I^{(n)}$ however is a lot closer to the zero matrix even with double-precision arithmetic, so we see that the Modified-Gram Schmidt algorithm is a better algorithm to use on computing machines.
-		
-	\end{enumerate}
+    \end{verbatim}
+    We can see that the results for $Q$ are now different to that of $\overline{Q}$. The result of $Q^TQ - I^{(n)}$ is indeed symmetric but has some entries with the value $0.5$, so we are starting to see some divergence away from the zero matrix. The matrix given by $\overline{Q}^T\overline{Q} - I^{(n)}$ however is a lot closer to the zero matrix even with double-precision arithmetic, so we see that the Modified-Gram Schmidt algorithm is a better algorithm to use on computing machines.
+    
+  \end{enumerate}
 \end{enumerate}
 
 \end{document}
