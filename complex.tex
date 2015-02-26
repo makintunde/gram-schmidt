@@ -1,0 +1,234 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{lastpage} % for the number of the last page in the document
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Michael Akintunde}
+\chead{CID: 00828840}
+\rhead{M2PM3 Complex Analysis Coursework 1}
+\lfoot{\today}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
+\newcommand{\real}[1] {\operatorname{Re} #1 }
+\newcommand{\imag}[1] {\operatorname{Im} #1 }
+\newcommand{\party}[2] {\frac{\partial #1}{\partial #2}}
+\newcommand{\partyy}[2] {\frac{\partial^2 #1}{\partial {#2}^2}}
+
+\newtheorem{theorem}{Lemma}
+
+\begin{document}
+\title{M2AA3 - Project 1}
+\author{Michael Akintunde - CID: 00828840}
+
+\maketitle
+
+\begin{enumerate}
+\item
+\begin{enumerate}
+\item
+ Let $f = u + iv$, such that $\real{f} = u$ and $\imag{f} = v$, where $u$ and $v$ are functions of $x$ and $y$. Let $\real{f}$ be constant, such that 
+\begin{align*}
+\real{f} = K 
+&\implies f = K + iv(x,y) \\
+&\implies \frac{\partial f}{\partial x} = i \frac{\partial v}{\partial x},\quad \frac{\partial f}{\partial y} =  i \frac{\partial v}{\partial y}.
+\end{align*}
+Due to $f$ being holomorphic, 
+\begin{align*}
+\frac{\partial f}{\partial x} = \frac{\partial f}{\partial y} \implies  i \frac{\partial v}{\partial x} = i \frac{\partial v}{\partial y}.
+\end{align*}
+Since $\real{f} =  u = K $, we can use the Cauchy-Riemann equations to deduce that 
+\begin{align*}
+\frac{\partial u}{\partial x} = \frac{\partial u}{\partial y} = 0 \implies \frac{\partial v}{\partial x} = \frac{\partial v}{\partial y} = 0.
+\end{align*}
+We can conclude that both partial derivatives of $f$ exist and are equal to zero. With this, we now know that
+\begin{align*}
+\nabla f = (0, 0) \implies f \equiv \text{constant}.
+\end{align*}
+
+ Let $\imag{f}$ be constant, such that 
+\begin{align*}
+\imag{f} = C 
+&\implies f = u(x,y)+ iC \\
+&\implies \frac{\partial f}{\partial x} = \frac{\partial u}{\partial x},\quad \frac{\partial f}{\partial y} =  \frac{\partial u}{\partial y}.
+\end{align*}
+By a similar argument to the above, we can use the Cauchy-Riemann equations again to deduce that
+\begin{align*}
+\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} = 0 \text{ and } \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x} = 0. 
+\end{align*}
+To conclude that both partial derivatives again exist and are equal to zero, so
+\begin{align*}
+\nabla f = (0, 0) \implies f \equiv \text{constant}.
+\end{align*}
+With both $\real{f}$ and $\imag{f}$  being constant it is immediate that $\nabla f = (0, 0) \implies f \equiv \text{constant}$.
+
+\item 
+Let $|f|  = |u(x,y) + iv(x,y)|\equiv \text{constant}$. Then
+\begin{align*}
+|f|^2 \equiv \text{constant} \\
+&\implies u^2 + v^2 = C  \\
+&\implies 2 u \frac{\partial u}{\partial x} + 2 v \frac{\partial v}{\partial x} = 2 u \frac{\partial u}{\partial y} + 2 v \frac{\partial v}{\partial y} =   0  \\
+&\implies  u \frac{\partial u}{\partial x} +  v \frac{\partial v}{\partial x} =  u \frac{\partial u}{\partial y} +  v \frac{\partial v}{\partial y} =   0  \\
+\end{align*}
+
+Using the Cauchy-Riemann equations, we end up with the following:
+\begin{align}
+ u \frac{\partial u}{\partial x} +  v \frac{\partial v}{\partial x} = 0 \label{eq:1}  \\
+ -u  \frac{\partial v}{\partial x} +  v \frac{\partial u}{\partial x} = 0.  \label{eq:2}
+\end{align}
+
+Multiplying (\ref{eq:1}) by $v$ and (\ref{eq:2}) by $u$, we have
+\begin{align}
+ u^2 \frac{\partial u}{\partial x} +  uv \frac{\partial v}{\partial x} = 0 \label{eq:3}  \\
+ -uv  \frac{\partial v}{\partial x} +  v^2 \frac{\partial u}{\partial x} = 0.  \label{eq:4}
+\end{align}
+
+Adding (\ref{eq:3}) and (\ref{eq:4}) gives
+\begin{align*}
+(u^2 + v^2) \frac{\partial u}{\partial x} = 0.
+\end{align*}
+
+For this to be true,  either $u^2 + v^2 = 0$ or  $\frac{\partial u}{\partial x}$ = 0.  $u^2 + v^2 = |f| = 0$, which is possible since $|f| \equiv \text{constant}.$ In the latter case, $\frac{\partial u}{\partial x} = - \frac{\partial v}{\partial y} = 0$, by using the Cauchy-Riemann equations. Substituting $\frac{\partial u}{\partial x} = 0$ into (\ref{eq:1}), we have $v  \frac{\partial v}{\partial x} = 0$. Here, either $\frac{\partial v}{\partial x} = 0$ or $v = 0$, which are equivalent statements given that we know that $\frac{\partial v}{\partial y} = 0$. Using the Cauchy-Riemann equations again, we can use the fact that $\frac{\partial v}{\partial x} = 0$ to deduce that $\frac{\partial u}{\partial y} = 0$. We now have that
+\begin{align*}
+\frac{\partial v}{\partial x} = \frac{\partial v}{\partial y}  = \frac{\partial u}{\partial x}  = \frac{\partial u}{\partial y}  = 0.
+\end{align*}
+All partial derivatives of $f$ exist and are equal to zero, so we can conclude that $\nabla f = 0 \implies f \equiv \text{constant}$.
+
+\end{enumerate}
+\item
+\begin{enumerate}
+\item
+
+We will check that $u(x,y) = e^{-y} \cos x - x $ is harmonic.
+\begin{align*}
+\party{u}{x} &= -e^{-y} \sin x - 1 &\implies \partyy{u}{x} = -e^{-y} \cos x \\
+\party{u}{y} &= -e^{-y} \cos x  &\implies \partyy{u}{y} = e^{-y} \cos x 
+\end{align*}
+Clearly, $\partyy{u}{x} + \partyy{u}{y} = 0 \implies u$ is harmonic.
+We will now attempt to obtain $v(x,y)$.
+\begin{align*}
+v(x,y) &=  \int \party{u}{x} \,\text{d}y = \int -e^{-y} - 1 \,\text{d}y = e^{-y} \sin x - y + C(x).
+\end{align*}
+Using the Cauchy-Riemann equations, $\party{u}{y} = -\party{v}{x}$, which implies that
+\begin{align*}
+-e^{-y} \cos x &= -e^{-y} \cos x + C'(x) \\ \implies C'(x) &= 0  \implies C \equiv \text{constant} \\
+\implies v(x,y) &= e^{-y} \sin x - y + C \\
+\implies f(z) &= e^{-y} \cos x - x + ie^{-y} \sin x - iy + iC \\
+&= e^{-y}(\cos x + i\sin x) - (x + iy) + iC \\
+&= e^{iz} -z + iC
+ \end{align*}
+
+\item
+We will check that $u(x,y) = -y/2(x^2 + y^2) + x^2 - y^2 $ is harmonic.
+\begin{align*}
+\party{u}{x} &= \dfrac{xy}{(x^2 + y^2)^2} + 2x &\implies \partyy{u}{x} = \dfrac{y}{(x^2 + y^2)^2} - \dfrac{4x^2 y}{(x^2 + y^2)^3} + 2 \\
+\party{u}{y} &= -\dfrac{1}{2(x^2 + y^2)} + \dfrac{y^2}{(x^2 + y^2)^2} - 2y &\implies \partyy{u}{y} = \dfrac{3y}{(x^2 + y^2)^2} - \dfrac{4y^3}{(x^2 + y^2)^3} - 2
+\end{align*}
+\begin{align*}
+\partyy{u}{x} + \partyy{u}{y} &= \dfrac{4y}{(x^2 + y^2)^2} - \dfrac{4y(x^2 + y^2)}{(x^2 + y^2)^3} \\
+ &= \dfrac{4y(x^2 + y^2)}{(x^2 + y^2)^3} - \dfrac{4y(x^2 + y^2)}{(x^2 + y^2)^3} = 0.
+\end{align*}
+So $u$ is harmonic. We will now attempt to obtain $v(x,y)$.
+\begin{align*}
+v(x,y) &=  \int \party{u}{x} \,\text{d}y = \int \left( \dfrac{xy}{(x^2 + y^2)^2} + 2x \right) \text{d}y \\ &= 2xy - \dfrac{x}{2(x^2 + y^2)} + C(x).
+\end{align*}
+Using the Cauchy-Riemann equations, $\party{u}{y} = -\party{v}{x}$, which implies that
+\begin{align*}
+ -\dfrac{1}{2(x^2 + y^2)} + \dfrac{y^2}{(x^2 + y^2)^2} - 2y &= -2y + \dfrac{1}{2(x^2 + y^2)} - \dfrac{x^2}{(x^2 + y^2)^2} + C'(x) \\
+\implies C'(x) &= -\dfrac{1}{x^2 + y^2} + \dfrac{y^2}{(x^2 + y^2)^2} + \dfrac{x^2}{(x^2 + y^2)^2} \\
+&= \dfrac{x^2 + y^2}{(x^2 + y^2)^2} -  \dfrac{x^2 + y^2}{(x^2 + y^2)^2} = 0 \\ \therefore C &\equiv \text{constant}. 
+\end{align*}
+So we have:
+\begin{align*}
+v(x,y) &=  2xy - \dfrac{x}{2(x^2 + y^2)} + C \\
+\implies f(z) &= -\dfrac{y}{2(x^2 + y^2)} + x^2 - y^2 + 2ixy - \dfrac{ix}{2(x^2 + y^2)} + iC \\
+&= -\dfrac{ix + y}{2(x^2 + y^2)} + (x + iy)^2 + iC \\
+&= -\dfrac{i\overline{z}}{2|z|^2} + z^2 + iC \\
+&= -\dfrac{i\overline{z}}{2z \overline{z}} + z^2 + iC \\
+&= -\dfrac{i}{2z} + z^2 + iC.
+\end{align*}
+
+\end{enumerate}
+\item
+\begin{enumerate}
+
+\item $J = \int_{\gamma} f(z) \,\text{d}z = \int_{\gamma} \sin z \,\text{d}z$. Let $z(t) = t + it$, where $0 \leq t \leq \pi$. Then,
+\begin{align*}
+J &= \int_0^\pi f(z(t))z'(t)\,\text{d}t = \int_0^\pi (1 + i)\sin(t + it) \,\text{d}t \\
+&= -\cos(1 + i)t \Big|_0^\pi \\
+&= -\cos(1+i)\pi \\
+&= -\dfrac{1}{2}(e^{i\pi}e^{-\pi} + e^{-i\pi} e^{\pi})\\
+&= \dfrac{1}{2} (e^{-\pi} + e^{\pi}) \\ 
+&= \cosh \pi.
+\end{align*}
+
+\item
+$\oint_\gamma |z|\overline{z}\,\text{d}z = I_1 + I_2 $, where $I_1$ is the integral along the upper curve of the semicircle, and $I_2$ is the integral along the bottom of the semicircle. 
+
+For $I_1$, let $\gamma_1 = Re^{it}$, for $0 \leq t \leq \pi$, and for $I_2$, $\gamma_2 = t$, for $-R \leq t \leq R$.
+
+$|z| = R$ and $\overline{z} = e^{-it}$, so
+\begin{align*}
+	I_1 &= \int_0^\pi R^2 e^{-it}\, \text{d}t \\
+		&= -\frac{R^2}{i} e^{-it} \Big|_0^\pi \\
+		&= iR^2( e^{-i\pi} - 1) \\
+		&= -2iR^2.
+\end{align*}
+
+For the second integral $I_2$, we have $f(z(t)) = |t|t$ and $z'(t) = 1$. Now,
+\begin{align*}
+	I_2 &= \int_R^R |t|t \,\text{d}t 
+		= \int_{-R}^0 -t^2 \,\text{d}t 
+		+ \int_0^R t^2 \,\text{d}t \\
+		&= \frac{1}{3}t^3 \Big|_0^R
+		- \frac{1}{3} t^3 \Big|_{-R}^0 = 0 \\ \implies 
+	I	&= I_1 + I_2 \\ &= (-2iR^2) + 0 \\ &= -2iR^2
+\end{align*}
+\end{enumerate}
+
+\item
+\begin{enumerate}
+\item
+We want to show that
+\begin{align*}
+	|z| < 1 \quad \text{and} \quad |w| < 1 &\implies \left|\frac{w-z}{1-\overline{w}z}\right| < 1 
+\end{align*}
+\begin{align*}
+	&\iff |w - z| < |1 - \overline{w} z| \\
+	&\iff |w - z|^2 < |1 - \overline{w} z|^2 \quad \text{(Monotonicity of squaring)} \\
+	&\iff (u - x)^2 + (v - y)^2 < (ux + vy - 1)^2 + (uy - vx)^2 \\
+	&\iff x^2 + y^2 + u^2 + v^2 -2(ux + vy) <  u^2 x^2 + v^2 y^2 + 2xyuv - 2(ux + vy) + 1 + u^2 y^2 -2xyuv + v^2 x^2 \\
+	&\iff x^2 + y^2 + u^2 + v^2  <  u^2 x^2 + v^2 y^2  + 1 + u^2 y^2  + v^2 x^2 \\
+	&\iff x^2 + y^2 + u^2 + v^2  < (x^2 + y^2)(u^2 + v^2) + 1 \\
+	&\iff (x^2 + y^2)(u^2 + v^2) - (x^2 + y^2) - (u^2 + v^2) + 1 > 0 \\
+	&\iff (x^2 + y^2 - 1)(u^2 + v^2 - 1) > 0.
+\end{align*}
+This is true since $$|z| < 1 \implies x^2 + y^2 < 1 \implies x^2 + y^2 - 1 < 0$$  $$|w| < 1 \implies u^2 + v^2 < 1 \implies u^2 + v^2 - 1 < 0.$$
+
+Hence, the product of the two terms will be positive, giving the desired result. We can use a similar argument to the above, replacing inequalities with equalities to prove that
+
+$$|z| = 1 \quad \text{or} \quad |w| = 1 &\implies \left|\frac{w-z}{1-\overline{w}z}\right| = 1. $$
+
+In particular, the statement is equivalent to
+
+$$(x^2 + y^2 - 1)(u^2 + v^2 - 1) = 0,$$
+
+which is true if either $$|z|=1 \implies x^2 + y^2 = 1 \implies   x^2 + y^2 - 1 = 0$$ or $$|w| = 1 \implies  u^2 + v^2 = 1 \implies u^2 + v^2 - 1 = 0.$
+
+\item
+\begin{enumerate}
+\item To show that $F$ maps the unit disc $\mathbb{D} = \left\lbrace z \in \mathbb{C} : |z| < 1 \right\rbrace$  to itself (with $w \in \mathbb{D}$), we can simply use the result shown in part (a), since we have already shown that $|z| < 1$ and $|w| < 1 \implies |F(z)| = \left|\frac{w-z}{1-\overline{w}z}\right| < 1 \in \mathbb{D}$. $F$ is essentially a particular case of the Mobius transform $f(z) = \frac{az + b}{cz + d}$ with $a = -1$, $b = w$, $c = -\overline{w}$ and $d = 1$, which by definition is a bijective holomorphic function. Therefore $F$ is holomorphic.
+
+\item It is the case that $F$ interchanges 0 and $w$, as $F(0) = \frac{w - 0}{1 - \overline{w} \cdot 0} = w$ and $F(w) = \frac{w - w}{1 - \overline{w}z} = 0$.
+
+\item Using the result from part (a), $|z| = 1 \implies \left|\frac{w-z}{1-\overline{w}z}\right| = 1 = |F(z)|. $
+\end{enumerate}
+
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
